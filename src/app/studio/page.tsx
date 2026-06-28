@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { PREVIEW_MESSAGE, useContent } from "@/context/content-context";
+import { PREVIEW_MESSAGE, PREVIEW_READY, useContent } from "@/context/content-context";
 import type { HomeContent, Market } from "@/lib/types";
 
 const sectionLabels: Record<keyof HomeContent["enabledSections"], string> = {
@@ -25,6 +25,13 @@ export default function StudioPage() {
   useEffect(() => {
     previewRef.current?.contentWindow?.postMessage({ type: PREVIEW_MESSAGE, content: draft }, window.location.origin);
   }, [draft]);
+  useEffect(() => {
+    const receiveReady = (event: MessageEvent) => {
+      if (event.data?.type === PREVIEW_READY && event.source === previewRef.current?.contentWindow) sendPreview();
+    };
+    window.addEventListener("message", receiveReady);
+    return () => window.removeEventListener("message", receiveReady);
+  });
 
   function sendPreview() {
     previewRef.current?.contentWindow?.postMessage({ type: PREVIEW_MESSAGE, content: draft }, window.location.origin);
