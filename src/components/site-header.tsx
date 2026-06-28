@@ -16,16 +16,20 @@ export function SiteHeader() {
         </Link>
         <button className="menu-button" onClick={() => setOpen(!open)} aria-label="Toggle menu">☰</button>
         <nav className={open ? "nav open" : "nav"}>
-          <Link href="/bikes">E-bikes</Link>
-          <Link href="/test-ride">Test ride</Link>
-          <Link href="/search">Search</Link>
-          <Link href="/account">Account</Link>
-          <Link href="/cart">Cart</Link>
+          <Link href="/bikes">Bikes</Link>
+          <Link href="/bikes">Accessories</Link>
+          <Link href="/test-ride">Book a Test Ride</Link>
+          <Link href="/test-ride">Store Locator</Link>
+          <Link href="#about">About Us</Link>
+          <Link href="#support">Support</Link>
+          <Link className="nav-icon" href="/search" aria-label="Search">⌕</Link>
+          <Link className="nav-icon" href="/account" aria-label="Account">♙</Link>
+          <Link className="nav-icon" href="/cart" aria-label="Cart">🛒</Link>
+          <Link className="login-pill" href="/login">Log In</Link>
           <select value={market} onChange={(event) => setMarket(event.target.value as "IN" | "ES")} aria-label="Market">
             <option value="IN">India</option>
             <option value="ES">España</option>
           </select>
-          <Link className="studio-link" href="/studio">CMS demo</Link>
         </nav>
       </header>
     </>

@@ -1,20 +1,23 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, formatPrice } from "@/data/products";
+import { products,formatPrice } from "@/data/products";
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
-  if (!product) notFound();
-  return (
-    <>
-      <section className="pdp-top">
-        <div className="pdp-visual"><span className="badge">{product.badge ?? product.category}</span><img src={product.image} alt={product.name}/><div className="swatches"><button aria-label="Selected colour" className="selected"/><button aria-label="Alternative colour"/><button aria-label="Alternative colour"/></div></div>
-        <div className="pdp-buy"><p className="eyebrow">{product.category} e-bike</p><h1>{product.name}</h1><div className="rating">★★★★★ <span>4.8 · 126 reviews</span></div><p className="lead">{product.description}</p><p className="pdp-price">{formatPrice(product.price)} <del>{formatPrice(product.compareAt ?? product.price)}</del></p><p className="finance">EMI from ₹1,275/month · Inclusive of taxes</p><div className="buy-actions"><Link className="button lime" href="/cart">Add to cart</Link><Link className="button outline" href="/test-ride">Book a test ride</Link></div><ul className="delivery-list"><li>Free doorstep delivery</li><li>1-year comprehensive warranty</li><li>7-day easy returns</li></ul></div>
-      </section>
-      <section className="spec-band"><div><strong>{product.range}</strong><span>Claimed range</span></div><div><strong>{product.topSpeed}</strong><span>Top speed</span></div><div><strong>{product.motor}</strong><span>Motor</span></div><div><strong>3.5 hrs</strong><span>Charge time</span></div></section>
-      <section className="pdp-story"><img src={product.banner} alt={`${product.name} ride`}/><div><p className="eyebrow light">Engineered for the everyday</p><h2>Power when you want it. Freedom when you don’t.</h2><p>Five levels of pedal assist help flatten climbs and shorten long days, while familiar cycle controls keep the ride natural.</p></div></section>
-      <section className="section feature-cards"><article><span>01</span><h3>Removable battery</h3><p>Charge it on or off the bike.</p></article><article><span>02</span><h3>Confident braking</h3><p>Consistent control in daily conditions.</p></article><article><span>03</span><h3>Smart display</h3><p>Speed, distance and battery at a glance.</p></article></section>
-    </>
-  );
-}
+export default async function ProductPage({params}:{params:Promise<{slug:string}>}){const{slug}=await params;const p=products.find(x=>x.slug===slug);if(!p)notFound();return <div className="design-pdp">
+  <section className="pdp-campaign" style={{backgroundImage:`linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.12)),url(${p.banner})`}}><div><small>EMOTORAD</small><h1>{p.name}</h1><p>Built to go beyond the ordinary.</p><Link href="#buy">Buy now</Link></div></section>
+  <section className="pdp-product" id="buy"><header><h2>We believe in the power of simplicity in design.</h2><p>{p.description} Built for daily coffee runs, off-road endeavours, and everything in between.</p></header><div className="pdp-product-grid"><div className="pdp-colours"><i/><i/><i/></div><img src={p.image} alt={p.name}/><aside><p>MRP</p><h3>{formatPrice(p.price)}</h3><small>EMI from ₹2,179/month</small><Link href="/cart">Add to cart</Link><Link href="/test-ride">Book test ride</Link></aside></div><div className="pdp-quick-specs"><div><strong>{p.range}</strong><span>Range</span></div><div><strong>{p.topSpeed}</strong><span>Top speed</span></div><div><strong>4–5 hrs</strong><span>Charge time</span></div></div></section>
+  <section className="pdp-story-dark"><div><small>RIDER STORIES</small><h2>Hi! What hills?</h2><p>Powerful assistance makes every incline feel possible without taking away the joy of riding.</p><Link href="/test-ride">Book a ride</Link></div><img src={p.image} alt={`${p.name} rider story`}/></section>
+  <section className="pdp-life-grid">{["Feel the city","Choose the long way","Make room for play"].map((x,i)=><article key={x} style={{backgroundImage:`linear-gradient(0deg,#000b,transparent),url(${products[i].banner})`}}><span>{x}</span></article>)}</section>
+  <section className="pdp-glow"><img src={p.image} alt={`${p.name} electric cycle`}/></section>
+  <section className="pdp-power"><p>LIMITLESS POWER</p><div><span>UP TO<strong>{p.range}</strong><small>RANGE</small></span><span><strong>{p.topSpeed}</strong><small>TOP SPEED</small></span></div><img src={p.image} alt={p.name}/></section>
+  <section className="pdp-feature-image suspension"><div><small>SUPERIOR FRONT</small><h2>SUSPENSION</h2></div><img src={p.image} alt="Front suspension detail"/></section>
+  <section className="pdp-feature-image throttle"><div><small>BATTERY INDICATOR</small><h2>ON THROTTLE</h2></div><img src={p.image} alt="Throttle and display detail"/></section>
+  <section className="pdp-feature-image motor"><div><small>PAS</small><h2>PEDAL ASSIST SYSTEM</h2><small>250W HUB MOTOR</small></div><img src={p.image} alt="Hub motor detail"/></section>
+  <section className="pdp-feature-image battery"><div><h2>10.2AH</h2><small>REMOVABLE BATTERY</small></div><img src={p.image} alt="Removable battery"/></section>
+  <section className="pdp-compare"><h2>Not sure which bike<br/>is right for you?</h2><div>{products.slice(0,2).map(x=><article key={x.slug}><img src={x.image} alt={x.name}/><h3>{x.name}</h3><dl><dt>Range</dt><dd>{x.range}</dd><dt>Motor</dt><dd>{x.motor}</dd><dt>Price</dt><dd>{formatPrice(x.price)}</dd></dl><Link href={`/bikes/${x.slug}`}>View bike</Link></article>)}</div></section>
+  <section className="pdp-battery-pack"><div><small>A little extra power</small><h2>Portable<br/>Power Pack</h2><p>A removable battery built to extend the day.</p><button>Add to cart</button></div><div className="battery-shape"/></section>
+  <section className="pdp-tech"><div><h2>Dimensions</h2><img src={p.image} alt={`${p.name} dimensions`}/></div><div><h2>Technical details</h2><table><tbody>{[["Motor",p.motor],["Range",p.range],["Top Speed",p.topSpeed],["Charge Time","4–5 hours"],["Warranty","2 years"]].map(([a,b])=><tr key={a}><th>{a}</th><td>{b}</td></tr>)}</tbody></table></div></section>
+  <section className="pdp-reasons">{["Easy Assembly","Easy Returns","2 Year warranty","Pay monthly"].map((x,i)=><article key={x}><span>0{i+1}</span><h3>{x}</h3><p>Designed to make ownership simple from day one.</p></article>)}</section>
+  <section className="pdp-faq"><h2>FAQ&apos;s</h2>{["Can I use it for my office commute?","Can I use it on mountainous terrains?","How long does it take to charge?","Can I ride in rainy conditions?"].map(q=><details key={q}><summary>{q}<span>＋</span></summary><p>Yes. This model is designed for everyday riding with dependable assistance and support.</p></details>)}</section>
+  <section className="pdp-reviews"><h2>Some Rider Love!</h2><strong>4.8 ★★★★★</strong><div>{products.concat(products).slice(0,6).map((x,i)=><img key={i} src={i%2?x.banner:x.image} alt="Rider review"/>)}</div></section>
+  <section className="pdp-final-life">{["Built for the commute","Made for the weekend","Ready for your road"].map((x,i)=><article key={x} style={{backgroundImage:`linear-gradient(0deg,#000b,transparent),url(${products[i].banner})`}}>{x}</article>)}</section>
+  </div>}

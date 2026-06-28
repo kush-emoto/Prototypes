@@ -4,12 +4,12 @@ const india: HomeContent = {
   market: "IN",
   announcement: "Free shipping across India · Easy EMI available",
   hero: {
-    eyebrow: "Built for everyday adventure",
-    title: "Move different.",
-    subtitle: "Electric cycles designed in India for commutes, trails and everything in between.",
+    eyebrow: "India's electric mobility revolution",
+    title: "We're pioneering India's electric mobility revolution.",
+    subtitle: "Because the future of transportation should be clean, efficient, and accessible to everyone.",
     ctaLabel: "Explore e-bikes",
     ctaHref: "/bikes",
-    mediaUrl: "/ranger.mp4",
+    mediaUrl: "/homepage-hero.mp4",
     mediaType: "video",
   },
   intro: {
