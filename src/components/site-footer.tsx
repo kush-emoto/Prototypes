@@ -9,7 +9,7 @@ export function SiteFooter() {
       </div>
       <div><strong>Explore</strong><Link href="/bikes">All e-bikes</Link><Link href="/test-ride">Book a test ride</Link></div>
       <div><strong>Support</strong><a href="#">Contact</a><a href="#">Warranty</a><a href="#">Owner manuals</a></div>
-      <div><strong>Company</strong><Link href="/studio">Content Studio</Link><span>India · España</span><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+      <div><strong>Company</strong><a href="#about">About EMotorad</a><span>India · España</span><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
       <small>© {new Date().getFullYear()} EMotorad. Stakeholder prototype.</small>
     </footer></>
   );

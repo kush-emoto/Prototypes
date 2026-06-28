@@ -6,6 +6,7 @@ import type { HomeContent, Market } from "@/lib/types";
 
 const STORAGE_KEY = "emotorad-prototype-content-v1";
 const EVENT_NAME = "emotorad-content-updated";
+export const PREVIEW_MESSAGE = "emotorad:preview-content";
 
 type ContentState = {
   market: Market;
@@ -38,9 +39,17 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     refresh();
     window.addEventListener("storage", refresh);
     window.addEventListener(EVENT_NAME, refresh);
+    const receivePreview = (event: MessageEvent) => {
+      if (event.data?.type !== PREVIEW_MESSAGE || !event.data.content) return;
+      const preview = event.data.content as HomeContent;
+      setAll((current) => ({ ...current, [preview.market]: preview }));
+      setMarket(preview.market);
+    };
+    window.addEventListener("message", receivePreview);
     return () => {
       window.removeEventListener("storage", refresh);
       window.removeEventListener(EVENT_NAME, refresh);
+      window.removeEventListener("message", receivePreview);
     };
   }, [refresh]);
 

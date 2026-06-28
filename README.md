@@ -6,7 +6,7 @@ A production-shaped stakeholder prototype based on the approved India website PN
 
 - Reusable Next.js + TypeScript frontend, not a disposable HTML mock-up.
 - Responsive implementation of the approved design language. The PNGs remain the pixel-level source of truth.
-- Browser-local CMS demo at `/studio`. Publish a headline, CTA, announcement, hero image, market variant or section visibility and the storefront reflects it immediately.
+- Standalone browser-local CMS prototype at `/studio`. It is intentionally absent from storefront navigation. Headline, CTA, hero media, market copy and section visibility update the actual storefront iframe immediately; Publish persists them for the same browser.
 - Typed mock API routes under `/api` that establish the frontend/backend contract shape.
 - A clean handoff point for a shared Sanity CMS and backend-for-frontend integrations.
 
@@ -35,7 +35,10 @@ Quality checks:
 npm run typecheck
 npm run lint
 npm run build
+npm run qc:flows
 ```
+
+`qc:flows` launches the installed Google Chrome and verifies desktop/mobile overflow, filters, cart, account, search, login, test-ride progression, CMS live preview, image replacement and publish persistence.
 
 ## Deploy through GitHub and Vercel
 
