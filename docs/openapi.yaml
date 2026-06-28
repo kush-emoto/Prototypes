@@ -1,0 +1,87 @@
+openapi: 3.1.0
+info:
+  title: EMotorad Storefront BFF Prototype
+  version: 0.1.0
+  description: Contract scaffold. Prototype handlers return mock data and perform no production writes.
+servers:
+  - url: /api
+paths:
+  /storefront/config:
+    get:
+      summary: Resolve market and storefront features
+      responses:
+        "200": { description: Storefront configuration }
+  /catalog/products:
+    get:
+      summary: List sellable product view models
+      responses:
+        "200": { description: Product collection }
+  /catalog/products/{slug}:
+    get:
+      summary: Get a product view model
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Product }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /leads:
+    post:
+      summary: Accept a normalized marketing lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, phone]
+              properties:
+                name: { type: string }
+                phone: { type: string }
+                source: { type: string }
+                consent: { type: boolean }
+      responses:
+        "202": { description: Lead accepted for processing }
+        "400": { $ref: "#/components/responses/BadRequest" }
+  /test-rides/stores:
+    get:
+      summary: List test-ride stores
+      responses:
+        "200": { description: Store collection }
+  /test-rides/slots:
+    get:
+      summary: List available booking slots
+      responses:
+        "200": { description: Slot collection }
+  /test-rides/bookings:
+    post:
+      summary: Request a test-ride booking
+      responses:
+        "202": { description: Booking request accepted }
+        "400": { $ref: "#/components/responses/BadRequest" }
+components:
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            correlationId: { type: string }
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }

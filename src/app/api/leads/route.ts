@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server";
+export async function POST(request: Request) { const body = await request.json(); if (!body.name || !body.phone) return NextResponse.json({ error: { code: "INVALID_LEAD", message: "name and phone are required" } }, { status: 400 }); return NextResponse.json({ data: { id: `lead_demo_${Date.now()}`, status: "accepted", provider: "mock" } }, { status: 202 }); }

@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server";
+export async function POST(request: Request) { const body = await request.json(); if (!body.name || !body.phone || !body.productSlug) return NextResponse.json({ error: { code: "INVALID_BOOKING", message: "name, phone and productSlug are required" } }, { status: 400 }); return NextResponse.json({ data: { id: `ride_demo_${Date.now()}`, status: "requested", provider: "mock" } }, { status: 202 }); }
