@@ -5,7 +5,7 @@ const chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const browser = await chromium.launch({ executablePath: chrome, headless: true });
 const context = await browser.newContext();
 const page = await context.newPage();
-page.setDefaultTimeout(15_000);
+page.setDefaultTimeout(30_000);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -15,7 +15,9 @@ async function open(path, viewport = { width: 1440, height: 1000 }) {
   await page.setViewportSize(viewport);
   const response = await page.goto(`${baseURL}${path}`, { waitUntil: "domcontentloaded" });
   assert(response?.ok(), `${path} returned ${response?.status()}`);
-  await page.waitForTimeout(250);
+  // Let client components hydrate before interaction. A cold Vercel deployment
+  // can deliver HTML materially earlier than its client chunks.
+  await page.waitForTimeout(1_000);
 }
 
 async function assertNoHorizontalOverflow(path, viewport) {
